@@ -1,20 +1,22 @@
 #!/usr/bin/env python3
 """
-DevTools AI Mock MCP Server
+DevTools AI Mock MCP Server - HTTP Transport
 
-This server mocks the functionality of the dev-tools-ai-server as an MCP server.
-It provides tools for workflow selection, toolchain selection, tool selection, 
-and command generation for MathWorks development tools.
+This server mocks the functionality of the dev-tools-ai-server as an MCP server
+using HTTP transport with FastAPI.
 """
 
 import asyncio
 import json
 import logging
+import os
 from typing import Any, Dict, List, Optional, Sequence
 from mcp.server.models import InitializationOptions
 import mcp.types as types
 from mcp.server import NotificationOptions, Server
-import mcp.server.stdio
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+import uvicorn
 from .mock_data import WORKFLOWS, TOOLCHAINS, TOOLS, COMMANDS
 
 # Configure logging
@@ -231,13 +233,6 @@ async def get_workflow(arguments: dict) -> List[types.TextContent]:
     session["cursor"] = 1
     
     workflow_info = WORKFLOWS.get(selected_workflow, {})
-    
-    response = {
-        "workflow": selected_workflow,
-        "description": workflow_info.get("description", ""),
-        "common_tasks": workflow_info.get("common_tasks", []),
-        "next_step": "toolchain_selection"
-    }
     
     return [
         types.TextContent(
@@ -478,26 +473,53 @@ async def get_session_status(arguments: dict) -> List[types.TextContent]:
     
     return [types.TextContent(type="text", text=status_text)]
 
-async def main():
-    """Main function to run the MCP server."""
-    # Run the server using stdio
-    async with mcp.server.stdio.stdio_server() as (read_stream, write_stream):
-        await server.run(
-            read_stream,
-            write_stream,
-            InitializationOptions(
-                server_name="devtools-ai-mock-mcp",
-                server_version="0.1.0",
-                capabilities=server.get_capabilities(
-                    notification_options=NotificationOptions(),
-                    experimental_capabilities={}
-                )
-            )
-        )
+# Create FastAPI app at module level
+app = FastAPI(title="DevTools AI Mock MCP Server", version="0.1.0")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Health check endpoint
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy", "server": "devtools-ai-mock-mcp"}
+
+# Tool endpoints
+@app.post("/tools/list")
+async def list_tools():
+    tools = await handle_list_tools()
+    return {"tools": [tool.model_dump() for tool in tools]}
+
+@app.post("/tools/call")
+async def call_tool(request: dict):
+    name = request.get("name")
+    arguments = request.get("arguments", {})
+    
+    if not name:
+        raise HTTPException(status_code=400, detail="Tool name is required")
+    
+    try:
+        result = await handle_call_tool(name, arguments)
+        return {"result": [content.model_dump() for content in result]}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 def main_cli():
     """CLI entry point for the package."""
-    asyncio.run(main())
+    # Get host and port from environment variables or use defaults
+    host = os.getenv("MCP_HOST", "127.0.0.1")
+    port = int(os.getenv("MCP_PORT", "3000"))
+    
+    logger.info(f"Starting DevTools AI Mock MCP server on http://{host}:{port}")
+    uvicorn.run(app, host=host, port=port, log_level="info")
 
 if __name__ == "__main__":
     main_cli()
