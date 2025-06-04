@@ -489,12 +489,12 @@ ENVIRONMENTS = {
     }
 }
 
-# COMMON_PATTERNS = {
-#     "create_sandbox": ["create", "new", "sandbox", "environment", "setup"],
-#     "build_compile": ["build", "compile", "make", "package"],
-#     "test_validate": ["test", "check", "validate", "verify", "run"],
-#     "deploy_release": ["deploy", "release", "publish", "distribute"],
-#     "debug_analyze": ["debug", "analyze", "profile", "troubleshoot", "fix"],
-#     "git_version": ["git", "commit", "push", "pull", "branch", "merge"],
-#     "help_info": ["help", "info", "documentation", "guide", "how"]
-# }
+COMMON_PATTERNS = {
+    "create_sandbox": ["create", "new", "sandbox", "environment", "setup"],
+    "build_compile": ["build", "compile", "make", "package"],
+    "test_validate": ["test", "check", "validate", "verify", "run"],
+    "deploy_release": ["deploy", "release", "publish", "distribute"],
+    "debug_analyze": ["debug", "analyze", "profile", "troubleshoot", "fix"],
+    "git_version": ["git", "commit", "push", "pull", "branch", "merge"],
+    "help_info": ["help", "info", "documentation", "guide", "how"]
+}

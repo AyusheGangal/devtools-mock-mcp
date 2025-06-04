@@ -147,6 +147,16 @@ async def handle_list_tools() -> List[types.Tool]:
         )
     ]
 
+@server.list_resources()
+async def handle_list_resources() -> List[types.Resource]:
+    """List available resources."""
+    return []
+
+@server.list_prompts()
+async def handle_list_prompts() -> List[types.Prompt]:
+    """List available prompts."""
+    return []
+
 @server.call_tool()
 async def handle_call_tool(name: str, arguments: dict) -> List[types.TextContent]:
     """Handle tool calls for DevTools AI functionality."""
