@@ -4,7 +4,7 @@ DevTools AI Mock MCP Server
 
 This server mocks the functionality of the dev-tools-ai-server as an MCP server.
 It provides tools for workflow selection, toolchain selection, tool selection, 
-and command generation for MathWorks development tools.
+and command generation for development tools.
 """
 
 import asyncio

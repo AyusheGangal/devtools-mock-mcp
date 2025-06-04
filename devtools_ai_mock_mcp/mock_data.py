@@ -2,7 +2,7 @@
 Mock data for DevTools AI MCP Server
 
 This module contains mock data representing the workflows, toolchains, tools,
-and commands available in the MathWorks development environment.
+and commands available in the development environment.
 """
 
 # Mock workflows available in the system
@@ -252,7 +252,7 @@ TOOLS = {
         ]
     },
     "mw_git": {
-        "description": "Git operations integrated with MathWorks tools",
+        "description": "Git operations integrated with tools",
         "usage": "mw_git [git_command] [options]",
         "doc_url": "https://example.com/help/mw_git",
         "examples": [
@@ -272,7 +272,7 @@ TOOLS = {
         ]
     },
     "mw_help": {
-        "description": "Get help for MathWorks tools",
+        "description": "Get help for tools",
         "usage": "mw_help [tool_name]",
         "doc_url": "https://example.com/help/mw_help",
         "examples": [
@@ -323,7 +323,7 @@ TOOLS = {
         ]
     },
     "mw_branch": {
-        "description": "Branch management for MathWorks repositories",
+        "description": "Branch management for repositories",
         "usage": "mw_branch [action] [branch_name]",
         "doc_url": "https://example.com/help/mw_branch",
         "examples": [
@@ -333,9 +333,9 @@ TOOLS = {
         ]
     },
     "mw_merge": {
-        "description": "Merge branches in MathWorks repositories",
+        "description": "Merge branches in repositories",
         "usage": "mw_merge [source_branch] [options]",
-        "doc_url": "https://mathworks.com/help/mw_merge",
+        "doc_url": "https://example.com/help/mw_merge",
         "examples": [
             "mw_merge feature-branch",
             "mw_merge --no-ff feature-branch",
@@ -343,7 +343,7 @@ TOOLS = {
         ]
     },
     "mw_commit": {
-        "description": "Commit changes with MathWorks standards",
+        "description": "Commit changes with standards",
         "usage": "mw_commit [options] [message]",
         "doc_url": "https://example.com/help/mw_commit",
         "examples": [
@@ -353,7 +353,7 @@ TOOLS = {
         ]
     },
     "mw_configure": {
-        "description": "Configure MathWorks development environment",
+        "description": "Configure development environment",
         "usage": "mw_configure [component] [options]",
         "doc_url": "https://example.com/help/mw_configure",
         "examples": [
@@ -363,7 +363,7 @@ TOOLS = {
         ]
     },
     "mw_init_workspace": {
-        "description": "Initialize a new MathWorks workspace",
+        "description": "Initialize a new workspace",
         "usage": "mw_init_workspace [workspace_name] [options]",
         "doc_url": "https://example.com/help/mw_init_workspace",
         "examples": [
