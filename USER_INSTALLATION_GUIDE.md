@@ -1,6 +1,6 @@
 # DevTools AI Mock MCP - User Installation Guide
 
-Complete installation guide for users installing from GitLab releases.
+Complete installation guide for users installing from GitLab releases. 
 
 ## System Requirements
 

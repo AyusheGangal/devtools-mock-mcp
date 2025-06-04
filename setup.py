@@ -14,8 +14,8 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="devtools-ai-mock-mcp-ayushe",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="Ayushe Gangal",
+    author_email="",
     description="A Model Context Protocol server that mocks DevTools AI functionality for MathWorks development workflows",
     long_description=long_description,
     long_description_content_type="text/markdown",
