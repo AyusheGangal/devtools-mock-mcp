@@ -1,9 +1,11 @@
 # DevTools AI Mock MCP Server
 
-A Model Context Protocol (MCP) server that mocks the functionality of the DevTools AI system for development workflows. This server provides a simulated environment for testing and development of AI-assisted development tools.
+A Model Context Protocol (MCP) server that mocks the functionality of the DevTools AI system for development workflows. Built with FastMCP and featuring streamable HTTP transport with Claude Desktop compatibility via proxy architecture.
 
 ## Features
 
+- **FastMCP Framework**: Modern Python MCP server with clean decorator-based API
+- **Dual Transport**: HTTP server for development + stdio proxy for Claude Desktop
 - **Workflow Management**: Simulates different development workflows (Environment Setup, Testing, Deployment, etc.)
 - **Toolchain Selection**: Provides appropriate toolchains based on user requirements
 - **Tool Recommendations**: Suggests specific tools within selected toolchains
@@ -11,38 +13,70 @@ A Model Context Protocol (MCP) server that mocks the functionality of the DevToo
 - **Session Management**: Tracks user sessions and conversation history
 - **Interactive Confirmation**: Handles user feedback and command refinement
 
-## Installation
+## Quick Start
 
-1. Clone the repository:
+### For End Users
+
+1. **Install the wheel package**:
 ```bash
-git clone <repository-url>
-cd devtools-mock-mcp
+pip install devtools_ai_mock_mcp_ayushe-0.1.0-py3-none-any.whl
 ```
 
-2. Run the setup script:
+2. **Find the installed command path**:
 ```bash
-python3 setup.py
+which devtools-ai-mock-mcp-proxy
+# Output: /path/to/python/bin/devtools-ai-mock-mcp-proxy
 ```
 
-Or install manually:
-```bash
-pip install -r requirements.txt
-chmod +x server.py
+3. **Configure Claude Desktop** (`claude_desktop_config.json`):
+```json
+{
+  "mcpServers": {
+    "devtools-ai-mock": {
+      "command": "/path/to/python/bin/devtools-ai-mock-mcp-proxy"
+    }
+  }
+}
 ```
+
+### For Developers
+
+See [LOCAL_WHEEL_SETUP.md](LOCAL_WHEEL_SETUP.md) for development setup and [DISTRIBUTION_GUIDE.md](DISTRIBUTION_GUIDE.md) for creating releases.
 
 ## Usage
 
-### Running the Server
+### Available Commands
 
+After installation, three commands are available:
+
+- **`devtools-ai-mock-mcp-proxy`** - Proxy server for Claude Desktop (stdio → HTTP)
+- **`devtools-ai-mock-mcp-http`** - Direct HTTP server for development
+- **`devtools-ai-mock-mcp`** - Direct stdio server
+
+### Running for Development
+
+**HTTP Server** (for testing/development):
 ```bash
-python3 server.py
+devtools-ai-mock-mcp-http
+# Server available at http://127.0.0.1:8001/mcp
 ```
 
-### Testing with MCP Inspector
-
+**Testing with MCP Inspector**:
 ```bash
-npx @modelcontextprotocol/inspector python3 server.py
+npx @modelcontextprotocol/inspector devtools-ai-mock-mcp
 ```
+
+### Architecture
+
+```
+Claude Desktop (stdio) 
+    ↓
+devtools-ai-mock-mcp-proxy (stdio ↔ HTTP bridge)
+    ↓
+fastmcp_server.py (HTTP server on port 8001)
+```
+
+The proxy automatically starts the HTTP server when needed, providing seamless integration between Claude Desktop's stdio requirements and the HTTP-based FastMCP server.
 
 ### Available Tools
 
@@ -135,9 +169,10 @@ The server includes comprehensive mock data for:
 
 ### Core Components
 
-- **server.py** - Main MCP server implementation
+- **fastmcp_server.py** - Main FastMCP HTTP server with @mcp.tool() decorators
+- **proxy_server.py** - Proxy bridge between stdio (Claude) and HTTP server
 - **mock_data.py** - Mock data definitions for workflows, toolchains, and tools
-- **setup.py** - Setup and installation script
+- **setup.py** & **pyproject.toml** - Package build configuration
 
 ### Session Management
 

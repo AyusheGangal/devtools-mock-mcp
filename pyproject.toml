@@ -5,12 +5,12 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "devtools-ai-mock-mcp-ayushe"
 version = "0.1.0"
-description = "A Model Context Protocol server that mocks DevTools AI functionality for MathWorks development workflows"
+description = "A Model Context Protocol server that mocks DevTools AI functionality for development workflows"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "MIT"}
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "Ayushe Gangal", email = "ayushe17@gmail.com"}
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -18,23 +18,20 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9", 
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "mcp>=1.0.0",
-    "fastapi>=0.104.1",
-    "uvicorn[standard]>=0.24.0",
-    "pydantic>=2.5.0",
-    "python-multipart>=0.0.6"
+    "fastmcp>=2.0.0",
+    "httpx>=0.28.1"
 ]
 
 [project.scripts]
-devtools-ai-mock-mcp-ayushe = "devtools_ai_mock_mcp.server:main_cli"
+devtools-ai-mock-mcp = "devtools_ai_mock_mcp.fastmcp_server:main_cli"
+devtools-ai-mock-mcp-proxy = "devtools_ai_mock_mcp.proxy_server:main_cli"
+devtools-ai-mock-mcp-http = "devtools_ai_mock_mcp.fastmcp_server:main_http"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/devtools-mock-mcp"
-Repository = "https://github.com/yourusername/devtools-mock-mcp"
-Issues = "https://github.com/yourusername/devtools-mock-mcp/issues"
+Homepage = "https://github.com/ayushegangal/devtools-mock-mcp"
+Repository = "https://github.com/ayushegangal/devtools-mock-mcp"
+Issues = "https://github.com/ayushegangal/devtools-mock-mcp/issues"
